@@ -170,6 +170,14 @@ class CommandLineArgs : Dictionary<string, string>
 }
 ```
 
+Una vez modificado el código y compilado, inicializa una terminar en la ruta donde se encuentra el archivo ejecutable de las migraciones. Normalmente estará localizado en la carpeta `...\bookstore\src\apsys.training.bookstore.migrations\bin\Debug\netcoreapp3.1`
+
+Ejecuta las migraciones de la siguiente manera:
+
+`apsys.training.bookstore.migrations.exe /cnn:"Server=localhost\SQLEXPRESS;Database=BookStore;Trusted_Connection=True;"`
+
+> El valor de la propiedad __Server__ puede cambiar dependiendo de tu instalacion de SQL Server 
+
 ## Unit of Work
 
 ```
