@@ -1,8 +1,11 @@
-# Gestion de la base de datos
+# Esquema de la base de datos
+El esquema de la base de datos, igual que cualquier otro elemento en el desarrollo de un proyecto, debe ser mantenida bajo un estricto control de versiones. 
+
+Esta guia indica como gestionar cada cambio en la base de datos, de forma que se garantize la integridad entre la aplicación y el esquema de la base de datos que almacena la información, asi como la distribución de los cambios en las tablas, campos, llaves, etc en los diferentes ambientes de trabajo, de pruebas y producción
 
 ## Creación de la base de datos
 
-Para persistir la información, en esta guìa usaremos `Microsoft SQL Server Express` sin embargo cualquier base de datos relacional, como `MySQL`, `Postgress`, pueden ser usadas, realizando los ajustes requeridos en la configuración
+Para persistir la información, en esta guía usaremos `Microsoft SQL Server Express` sin embargo cualquier base de datos relacional, como `MySQL`, `Postgress`, pueden ser usadas, realizando los ajustes requeridos en la configuración
 
 Usando `Microsoft SQL Server Management Studio`, crea una base de datos con el nombre `BookStore`
 
@@ -10,11 +13,7 @@ Usando `Microsoft SQL Server Management Studio`, crea una base de datos con el n
 
 ## Creación del esquema de datos
 
-Ahora que tenemos un dominio definido, podemos crear las tablas en nuestra base de datos donde se almacenará su información. Para mantener el esquema de la base de datos bajo control de versiones, usaremos una herramienta llamada Migrator.NET, asi como una serie de paquetes adicionales
-
-
-> Todo cambio realizado en el esquema de la base de datos deberá ser realizado a través de una migración para asegurar la correcta distribución de estos en los servidores de prueba, producción y ambientes de desarollo del resto del equipo de trabajo
-
+Ahora podemos crear las tablas en nuestra base de datos. Para mantener el esquema de la base de datos bajo control de versiones, usaremos una herramienta llamada Migrator.NET, asi como una serie de paquetes relacionados 
 
 Abre el proyecto `apsys.training.bookstore.migrations` e instala los siguientes paquetes
 
@@ -26,7 +25,7 @@ Install-Package FluentMigrator.Runner -Version 3.3.1
 
 ### Agregar tabla _Authors_
 
-Vamos a crear nuestra primer tabla que almacenará la información de nuestra entidad `Author`. En el mismo proyecto, agrega una clase llamada `M01_CreateAuthorsTable` como se muestra a continuación
+Vamos a crear una tabla para almacenar la información de la entidad `Author`. En el proyecto `apsys.training.bookstore.migrations`, agrega una clase llamada `M01_CreateAuthorsTable` como se muestra a continuación
 
 ```c#
 [Migration(1)]
@@ -47,7 +46,11 @@ public class M01_CreateAuthorsTable: Migration
 }
 ```
 
+Como observas la clase tiene el atributo `[Migration(1)]`. Este atributo estable un número consecutivo, no repetido de migración. En caso de *omitir* este atributo, la migración no se ejecutará
+
 El método `Up` deberá contener los cambios a realizar en nuestro esquema de la base de datos. En este caso, agregamos una tabla llamada `Authors` con sus campos correspondientes. El método `Down` deberá contener el código que permita deshacer los cambios realizados en el método `Up`. En este caso, la eliminación de la tabla `Authors`
+
+> Todo cambio en el esquema de la base de datos deberá ser realizado a través de una migración. Jamás se deberán hacer cambios manualmente, porque el resto de los ambientes de trabajo, pruebas o producción no podrán ser actualizados correctamente
 
 ### Ejecutando las migraciones
 Para ver reflejados los cambios en nuestra base de datos, debemos ejecutar nuestras migraciones. Abre el archivo `Program.cs` del proyecto de migraciones y escribe el siguiente código
