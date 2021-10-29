@@ -20,7 +20,6 @@ Crea una solución en blanco usando Visual Studio 2017 o 2019, con el nombre `ap
 | apsys.training.bookstore                         | Biblioteca de clases  | 02.domain |
 | apsys.training.bookstore.repositories            | Biblioteca de clases  | 01.data   |
 | apsys.training.bookstore.repositories.nhibernate | Biblioteca de clases  | 01.data   |
-| apsys.training.bookstore.repositories.nhibernate | Biblioteca de clases  | 01.data   |
 | apsys.training.bookstore.repositories.testing    | NUnit                 | 01.data   |
 | apsys.training.bookstore.migrations              | Aplicación de consola | 00.tools  |
 

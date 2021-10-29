@@ -1,4 +1,4 @@
-# Unit of Work y Repositories
+# UnitOfWork y Repositories
 
 Ahora que tenemos un dominio, y un esquema de base de datos, necesitamos crear los elementos que nos permitan realizar las operaciones de almacenamiento y lectura de nuestras entidades la base de datos
 
@@ -55,7 +55,9 @@ public interface IUnitOfWork
 
 > Nota que la declaración de la propiedad `Authors` en `IUnitOfWork` es *read-only*
 
-## Implementing Unit of Work with NHibernate
+## UnitOfWork con NHibernate
+
+Con la definición de nuestras interfaces, podemos realizar la implementación usando NHibernate. Para eso necesitamos abrir el proyecto `apsys.training.bookstore.repositories.nhibernate` e instalar los siguientes paquetes
 
 ```
 Install-Package apsys.repository.core
@@ -63,6 +65,8 @@ Install-Package apsys.repository.nhibernate.core
 Install-Package NHibernate
 Install-Package FluentNHibernate
 ```
+
+Agrega una clase llamada `UnitOfWork.cs` y realiza la implementación de la inteface `IUnitOfWork` como se muestra a continuación
 
 ```c#
 public class UnitOfWork: IUnitOfWork
@@ -96,8 +100,16 @@ public class UnitOfWork: IUnitOfWork
 }
 ```
 
+Nota que en el constructor recibe una entidad de tipo `ISession`. Esta entidad pertenece a *NHibernate* e implementa a su vez el patrón de UnitOfWork. Nuestros repositorios usarán esta entidad para realizar todas sus operaciones hacia la base de datos
+
+> <a href="https://nhibernate.info/doc/nhibernate-reference/architecture.html">https://nhibernate.info/doc/nhibernate-reference/architecture.html</a> 
+
+## AuthorsRepository con NHibernate
+
+Crea una clase llamada `AuthorsRepository` e implementa `IAuthorsRepository` como se muestra a continuación
+
 ```c#
-public class AuthorsRepository: Repository<Author>,  IAuthorsRepository 
+public class AuthorsRepository: Repository<Author>, IAuthorsRepository 
 {
     public AuthorsRepository(ISession session) 
         : base(session)
@@ -106,6 +118,11 @@ public class AuthorsRepository: Repository<Author>,  IAuthorsRepository
 }
 ```
 
+Nota que la clase `AuthorsRepository` hereda de la clase `Repository<T>` contenida en el paquete `apsys.repository.nhibernate.core`.
+
+Esta clase `Repository` implementa las operaciones CRUD usando la sesión de NHibernate
+
+Una vez definida nuestro repositorio, debemos inicializarlo en el UnitOfWork. Abre el archivo `UnitOfWork.cs` y modificalo como se muestra a continuación
 
 ```c#
 public class UnitOfWork: IUnitOfWork
@@ -121,6 +138,12 @@ public class UnitOfWork: IUnitOfWork
     ...
 }
 ```
+
+## Mapper de Author
+
+NHibernate necesita saber como mapear nuestras entidades de dominio contra la base de datos. Este mapeo lo realizamos a través de clases que heredan de `ClassMapping`
+
+Abre el proyecto `apsys.training.bookstore.repositories.nhibernate` y agrega una carpeta llamada `mappers`. Dentro de esta carpeta agrega una clase llamada `AuthorsMappers` e implementa como se muestra a continuación
 
 ```c#
 public class AuthorsMappers: ClassMapping<Author>
