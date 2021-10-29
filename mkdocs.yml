@@ -1,3 +1,8 @@
-site_name: My Docs
+site_name: Apsys Training | Datos
 theme:
   name: material
+nav: 
+  - Introducción: 'index.md'
+  - Esquema de base de datos: 'managing_database_schema.md'
+  - UnitOfWork y Repositories: 'unit_of_work.md'
+  - Testing de UnitOfWork: 'testing_unit_of_work.md'
