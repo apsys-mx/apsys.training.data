@@ -14,19 +14,39 @@ El presente material establece una guía sobre como inicializar, configurar, ver
 
 Crea una solución en blanco usando Visual Studio 2017 o 2019, con el nombre `apsys.training.bookstore.sln`. Dentro de esa solución agrega los siguientes proyecto, organizados como se muestra a continuación
 
-| Proyecto                                                | Tipo de proyecto      | Carpeta   |
-| -----                                                   | ------                | -----     |
-| apsys.training.bookstore.csproj                         | Biblioteca de clases  | 02.domain |
-| apsys.training.bookstore.repositories.csproj            | Biblioteca de clases  | 01.data   |
-| apsys.training.bookstore.repositories.nhibernate.csproj | Biblioteca de clases  | 01.data   |
-| apsys.training.bookstore.repositories.nhibernate.csproj | Biblioteca de clases  | 01.data   |
-| apsys.training.bookstore.repositories.testing.csproj    | NUnit                 | 01.data   |
-| apsys.training.bookstore.migrations.csproj              | Aplicación de consola | 00.tools  |
+| Proyecto                                         | Tipo de proyecto      | Carpeta   |
+| -----                                            | ------                | -----     |
+| apsys.training.bookstore                         | Biblioteca de clases  | 02.domain |
+| apsys.training.bookstore.repositories            | Biblioteca de clases  | 01.data   |
+| apsys.training.bookstore.repositories.nhibernate | Biblioteca de clases  | 01.data   |
+| apsys.training.bookstore.repositories.nhibernate | Biblioteca de clases  | 01.data   |
+| apsys.training.bookstore.repositories.testing    | NUnit                 | 01.data   |
+| apsys.training.bookstore.migrations              | Aplicación de consola | 00.tools  |
 
 ![](img/step01.project_structure.png "Project structure")
 
-## Definición del dominio
+## Creación de la base de datos
 
+Para persistir la información, en esta guìa usaremos `Microsoft SQL Server Express` sin embargo cualquier base de datos relacional, como `MySQL`, `Postgress`, pueden ser usadas, realizando los ajustes requeridos en la configuración
+
+Usando `Microsoft SQL Server Management Studio`, crea una base de datos con el nombre `BookStore`
+
+![](img/step02.add_database.png "Database")
+
+## Definición del dominio
+La capa de datos se encarga de persistir y recuperar nuestras entidades del dominio de una base de datos, por lo que necesitamos de primera instancia entidades en nuestro dominio. 
+
+Agrega las siguientes clases a el proyecto `apsys.training.bookstore`
+
+```c#
+public class Author
+{
+    public string Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public IEnumerable<Book> Books { get; set; }
+}
+```
 
 ```c#
 public class Book
@@ -40,24 +60,15 @@ public class Book
 }
 ```
 
+## Creación del esquema de datos
 
-```c#
-public class Author
-{
-    public string Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public IEnumerable<Book> Books { get; set; }
-}
-```
+Ahora que tenemos un dominio definido, podemos crear las tablas en nuestra base de datos donde se almacenará su información. Para mantener el esquema de la base de datos bajo control de versiones, usaremos una herramienta llamada Migrator.NET, asi como una serie de paquetes adicionales
 
-## Crear la estructura de la base de datos
 
-### Base de datos
+> Todo cambio realizado en el esquema de la base de datos deberá ser realizado a través de una migración para asegurar la correcta distribución de estos en los servidores de prueba, producción y ambientes de desarollo del resto del equipo de trabajo
 
-![](img/step02.add_database.png "Database")
 
-### Migraciones
+Abre el proyecto `apsys.training.bookstore.migrations` e instala los siguientes paquetes
 
 ```
 Install-Package FluentMigrator -Version 3.3.1
@@ -65,7 +76,9 @@ Install-Package FluentMigrator.Extensions.SqlServer -Version 3.3.1
 Install-Package FluentMigrator.Runner -Version 3.3.1
 ```
 
-### Add Authors table
+### Agregar tabla _Authors_
+
+Vamos a crear nuestra primer tabla que almacenará la información de nuestra entidad `Author`. En el mismo proyecto, agrega una clase llamada `M01_CreateAuthorsTable` como se muestra a continuación
 
 ```c#
 [Migration(1)]
@@ -86,7 +99,10 @@ public class M01_CreateAuthorsTable: Migration
 }
 ```
 
-### Running migrations
+El método `Up` deberá contener los cambios a realizar en nuestro esquema de la base de datos. En este caso, agregamos una tabla llamada `Authors` con sus campos correspondientes. El método `Down` deberá contener el código que permita deshacer los cambios realizados en el método `Up`. En este caso, la eliminación de la tabla `Authors`
+
+### Ejecutando las migraciones
+Para ver reflejados los cambios en nuestra base de datos, debemos ejecutar nuestras migraciones. Abre el archivo `Program.cs` del proyecto de migraciones y escribe el siguiente código
 
 ```c#
 public class Program
