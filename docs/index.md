@@ -132,3 +132,32 @@ class CommandLineArgs : Dictionary<string, string>
     }
 }
 ```
+
+## Unit of Work
+
+```
+Install-Package apsys.repository.core
+```
+
+```c#
+public interface IUnitOfWork
+{
+    void Commit();
+    void Rollback();
+}
+```
+
+```c#
+public interface IAuthorsRepository: IRepository<Author>
+{
+}
+```
+
+```c#
+public interface IUnitOfWork
+{
+    IAuthorsRepository Authors { get; }
+    void Commit();
+    void Rollback();
+}
+```
