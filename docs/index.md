@@ -1,7 +1,31 @@
-# Documentación de capa de datos
+# Arquitectura de una aplicación
+Las aplicaciones de backend desarrolladas generalmente siguen un organización de capas como la que se muestra en la imagen a continuación
 
+![](img/step00.layers_of_application.png "Application layers")
+
+Cada capa está implementada a través de uno o varios proyectos en una solución de .Net Core.
+
+# Objetivo
+El presente material establece una guía sobre como inicializar, configurar, verificar e implementar una capa de acceso a datos para los proyectos de APSYS. Para ejemplificar de manera práctica, se desarrollará el código requerido para un proyecto llamado `bookstore`.
+
+Es importante mencionar que al día de hoy, las implementación de esta capa de acceso a datos se realiza a través dos patrones de diseño: `unitOfWork` y `repository`. Para una explicación sobre los patrones mencionados, puedes consultar las siguientes referencias
+
+> https://martinfowler.com/eaaCatalog/unitOfWork.html
+> https://martinfowler.com/eaaCatalog/repository.html
 
 ## Estructura inicial del proyecto
+
+Para iniciar, crea una solución en blanco usando Visual Studio 2017 o 2019, llamada `apsys.training.bookstore.sln`. Dentro de esa solución crea los siguientes proyecto, organizados como se muestra a continuación
+
+| Proyecto                                                | Tipo de proyecto      | Carpeta   |
+| -----                                                   | ------                | -----     |
+| apsys.training.bookstore.csproj                         | Biblioteca de clases  | 02.domain |
+| apsys.training.bookstore.repositories.csproj            | Biblioteca de clases  | 01.data   |
+| apsys.training.bookstore.repositories.nhibernate.csproj | Biblioteca de clases  | 01.data   |
+| apsys.training.bookstore.repositories.nhibernate.csproj | Biblioteca de clases  | 01.data   |
+| apsys.training.bookstore.repositories.testing.csproj    | NUnit                 | 01.data   |
+| apsys.training.bookstore.migrations.csproj              | Aplicación de consola | 00.tools  |
+
 ![](img/step01.project_structure.png "Project structure")
 
 ## Definición del dominio
@@ -252,3 +276,13 @@ public class AuthorsMappers: ClassMapping<Author>
     }
 }
 ```
+
+## Testing unit of work
+
+```
+Install-Package FluentAssertions
+Install-Package NUnit
+Install-Package NUnit3TestAdapter
+```
+
+
