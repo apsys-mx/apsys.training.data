@@ -1,0 +1,600 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>UnitOfWork y Repositories - Apsys Training | Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="red">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#unitofwork-y-repositories" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Apsys Training | Datos" class="md-header__button md-logo" aria-label="Apsys Training | Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Apsys Training | Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              UnitOfWork y Repositories
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Apsys Training | Datos" class="md-nav__button md-logo" aria-label="Apsys Training | Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Apsys Training | Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../managing_database_schema/" class="md-nav__link">
+        Esquema de base de datos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          UnitOfWork y Repositories
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        UnitOfWork y Repositories
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definicion-de-unitofwork" class="md-nav__link">
+    Definición de UnitOfWork
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definicion-de-authorsrepository" class="md-nav__link">
+    Definición de AuthorsRepository
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unitofwork-con-nhibernate" class="md-nav__link">
+    UnitOfWork con NHibernate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorsrepository-con-nhibernate" class="md-nav__link">
+    AuthorsRepository con NHibernate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapper-de-author" class="md-nav__link">
+    Mapper de Author
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing_unit_of_work/" class="md-nav__link">
+        Testing de UnitOfWork
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definicion-de-unitofwork" class="md-nav__link">
+    Definición de UnitOfWork
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definicion-de-authorsrepository" class="md-nav__link">
+    Definición de AuthorsRepository
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unitofwork-con-nhibernate" class="md-nav__link">
+    UnitOfWork con NHibernate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorsrepository-con-nhibernate" class="md-nav__link">
+    AuthorsRepository con NHibernate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapper-de-author" class="md-nav__link">
+    Mapper de Author
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="unitofwork-y-repositories">UnitOfWork y Repositories</h1>
+<p>Ahora que tenemos un dominio, y un esquema de base de datos, necesitamos crear los elementos que nos permitan realizar las operaciones de almacenamiento y lectura de nuestras entidades la base de datos</p>
+<p>Esta guia explica como implementar el UnitOfWork usando el ORM <a href="https://nhibernate.info/">NHibernate</a>, que por su madurez y versatilidad a sigo la opción por default en los proyectos de APSYS. </p>
+<p>Sin embargo, la implementación del UnitOfWork puede realizarse con otros ORM's como Microsoft Entity Framework, o incluso sin el uso de ORM alguno, generando las sentencias SQL directamente en código o a través de procedimientos almacenados</p>
+<h2 id="definicion-de-unitofwork">Definición de UnitOfWork</h2>
+<p>El primer paso consiste en crear las interfaces que definirán las operaciones de nuestras entidades hacia la base de datos.</p>
+<p>Abre el proyecto <code>apsys.training.bookstore.repositories.csproj</code> e instala los siguientes paquetes</p>
+<pre><code>Install-Package apsys.repository.core
+</code></pre>
+<p>Posteriormente, definiremos la interface de nuestro <code>UnitOfWork</code> como se muestra a continuación</p>
+<pre><code class="language-c#">public interface IUnitOfWork
+{
+    void Commit();
+    void Rollback();
+}
+</code></pre>
+<p>Esta primer definición solo contiene los métodos que nos permitirá ejecutar la transacción de los cambios realizados en todas nuestras entidades de manera atómica, consistente y perdurable, o por el contrario, revertirlos en caso de un error</p>
+<h2 id="definicion-de-authorsrepository">Definición de AuthorsRepository</h2>
+<p>Ahora agregaremos la definicion de nuestro primer repositorio que se encargará de realizar las operaciones <em>CRUD</em> de la entidad <code>Authors</code> en la base de datos</p>
+<pre><code class="language-c#">public interface IAuthorsRepository: IRepository&lt;Author&gt;
+{
+}
+</code></pre>
+<p>Como podrás observar, <code>IAuthorsRepository</code> hereda de la interface <code>IRepository&lt;T&gt;</code>, contenida en el paquete <code>apsys.repository.core</code>.</p>
+<p>Esta interface <code>IRepository</code> ha sido diseñada para definir las operaciones CRUD básicas como <code>Add</code>, <code>Remove</code>, <code>Get</code> y deberá ser usada en todos los repositorios de nuestra aplicación</p>
+<blockquote>
+<p>La interface IRepository define un tipo de dato genérico <code>&lt;T&gt;</code> para encapsular la definición de cualquier entidad de cualquier dominio. Para mayor información puede consultar la referencia <a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics">https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics</a></p>
+</blockquote>
+<p>Una vez definido nuestro primer repositorio es necesario incluirlo en nuestro <code>UnitOfWork</code>. Abre el archivo <code>IUnitOfWork.cs</code> y modifica como se muestra a continuación</p>
+<pre><code class="language-c#">public interface IUnitOfWork
+{
+    IAuthorsRepository Authors { get; }
+    void Commit();
+    void Rollback();
+}
+</code></pre>
+<blockquote>
+<p>Nota que la declaración de la propiedad <code>Authors</code> en <code>IUnitOfWork</code> es <em>read-only</em></p>
+</blockquote>
+<h2 id="unitofwork-con-nhibernate">UnitOfWork con NHibernate</h2>
+<p>Con la definición de nuestras interfaces, podemos realizar la implementación usando NHibernate. Para eso necesitamos abrir el proyecto <code>apsys.training.bookstore.repositories.nhibernate</code> e instalar los siguientes paquetes</p>
+<pre><code>Install-Package apsys.repository.core
+Install-Package apsys.repository.nhibernate.core
+Install-Package NHibernate
+Install-Package FluentNHibernate
+</code></pre>
+<p>Agrega una clase llamada <code>UnitOfWork.cs</code> y realiza la implementación de la inteface <code>IUnitOfWork</code> como se muestra a continuación</p>
+<pre><code class="language-c#">public class UnitOfWork: IUnitOfWork
+{
+    private readonly ISession _session;
+    private ITransaction _transaction;
+
+    public UnitOfWork(ISession session)
+    {
+        _session = session;
+        this._transaction = session.BeginTransaction();
+    }
+
+    public IAuthorsRepository Authors { get; }
+
+    public void Commit()
+    {
+        if (this._transaction != null &amp;&amp; this._transaction.IsActive)
+            this._transaction.Commit();
+        else
+            throw new TransactionException(&quot;The actual transaction is not longer active&quot;);
+    }
+
+    public void Rollback()
+    {
+        if (this._transaction != null &amp;&amp; this._transaction.IsActive)
+            this._transaction.Rollback();
+        else
+            throw new TransactionException(&quot;The actual transaction is not longer active&quot;);
+    }
+}
+</code></pre>
+<p>Nota que en el constructor recibe una entidad de tipo <code>ISession</code>. Esta entidad pertenece a <em>NHibernate</em> e implementa a su vez el patrón de UnitOfWork. Nuestros repositorios usarán esta entidad para realizar todas sus operaciones hacia la base de datos</p>
+<blockquote>
+<p><a href="https://nhibernate.info/doc/nhibernate-reference/architecture.html">https://nhibernate.info/doc/nhibernate-reference/architecture.html</a> </p>
+</blockquote>
+<h2 id="authorsrepository-con-nhibernate">AuthorsRepository con NHibernate</h2>
+<p>Crea una clase llamada <code>AuthorsRepository</code> e implementa <code>IAuthorsRepository</code> como se muestra a continuación</p>
+<pre><code class="language-c#">public class AuthorsRepository: Repository&lt;Author&gt;, IAuthorsRepository 
+{
+    public AuthorsRepository(ISession session) 
+        : base(session)
+    {
+    }
+}
+</code></pre>
+<p>Nota que la clase <code>AuthorsRepository</code> hereda de la clase <code>Repository&lt;T&gt;</code> contenida en el paquete <code>apsys.repository.nhibernate.core</code>.</p>
+<p>Esta clase <code>Repository</code> implementa las operaciones CRUD usando la sesión de NHibernate</p>
+<p>Una vez definida nuestro repositorio, debemos inicializarlo en el UnitOfWork. Abre el archivo <code>UnitOfWork.cs</code> y modificalo como se muestra a continuación</p>
+<pre><code class="language-c#">public class UnitOfWork: IUnitOfWork
+{    
+    ...
+
+    public UnitOfWork(ISession session)
+    {
+        _session = session;
+        this._transaction = session.BeginTransaction();
+        this.Authors = new AuthorsRepository(this._session);
+    }    
+    ...
+}
+</code></pre>
+<h2 id="mapper-de-author">Mapper de Author</h2>
+<p>NHibernate necesita saber como mapear nuestras entidades de dominio contra la base de datos. Este mapeo lo realizamos a través de clases que heredan de <code>ClassMapping</code></p>
+<p>Abre el proyecto <code>apsys.training.bookstore.repositories.nhibernate</code> y agrega una carpeta llamada <code>mappers</code>. Dentro de esta carpeta agrega una clase llamada <code>AuthorsMappers</code> e implementa como se muestra a continuación</p>
+<pre><code class="language-c#">public class AuthorsMappers: ClassMapping&lt;Author&gt;
+{
+
+    public AuthorsMappers()
+    {
+        Table(&quot;ApplicationRoles&quot;);
+        Id(x =&gt; x.Id, x =&gt;
+        {
+            x.Generator(Generators.Assigned);
+            x.Column(&quot;Id&quot;);
+        });
+        Property(x =&gt; x.FirstName, x =&gt;
+        {
+            x.Column(&quot;FirstName&quot;);
+        });            
+        Property(x =&gt; x.LastName, x =&gt;
+        {
+            x.Column(&quot;LastName&quot;);
+        });
+    }
+}
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../managing_database_schema/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Esquema de base de datos" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Esquema de base de datos
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../testing_unit_of_work/" class="md-footer__link md-footer__link--next" aria-label="Next: Testing de UnitOfWork" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Testing de UnitOfWork
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+    
+  </body>
+</html>
