@@ -1,6 +1,11 @@
 site_name: Apsys Training | Datos
 theme:
   name: material
+  features:
+    - navigation.top
+  palette:
+    primary: white
+    accent: red
 nav: 
   - Introducción: 'index.md'
   - Esquema de base de datos: 'managing_database_schema.md'
